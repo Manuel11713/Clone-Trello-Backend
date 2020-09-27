@@ -1,0 +1,17 @@
+CREATE TABLE tables(
+    _TablesID BIGSERIAL PRIMARY KEY,
+    nameTable VARCHAR(50) NOT NULL UNIQUE
+);
+
+
+CREATE TABLE lists(
+    _ListID BIGSERIAL PRIMARY KEY,
+    nameList VARCHAR(50) NOT NULL,
+    _TablesID BIGINT REFERENCES tables(_TablesID)
+);
+
+CREATE TABLE cards(
+    _CardID BIGSERIAL PRIMARY KEY,
+    nameCard VARCHAR(50) NOT NULL,
+    _ListID BIGINT REFERENCES lists(_ListID)
+);
