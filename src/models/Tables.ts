@@ -11,13 +11,13 @@ export default class Tables{
         this.background = background;
     }
 
-    async createTable():Promise<boolean>{
+    async createTable():Promise<number | null>{
         try{
-            await pgClient.query(`INSERT INTO tables(nametable,background, _personid) VALUES('${this.nameTable}','${this.background}',${this._personid})`);
-            return true;
+            const res = await pgClient.query(`INSERT INTO tables(nametable, background, _personid) VALUES('${this.nameTable}','${this.background}',${this._personid}) RETURNING _tablesid`);
+            return res.rows[0]._tablesid;
         }catch(err){
             console.log(err);
-            return false;
+            return null;
         }
     }
     static async updateTable(idTable:number, newName:string, newBackground:string):Promise<boolean>{

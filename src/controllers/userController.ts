@@ -1,8 +1,23 @@
 import {Request, Response} from 'express';
 import User from '../models/User';
 
+export const getTables = async (req:Request, res:Response) =>{
+    const {_id} = req;
+    const rows = await User.getTables(_id);
+    if(!rows)return res.json({ok:false,message:"There are a problem try it later"});
+    return res.json({ok:true,rows});
+}
 
-//Get user By email
+export const getAllCards =async (req:Request, res:Response) =>{
+    const {email} = req;
+    const rows = await User.getAllData(email);
+
+    if(!rows)return res.json({ok:false,message:'There was a problem'});
+    
+    res.json({ok:true,rows});
+}
+
+//Get user By email (/login)
 export const getUser = async (req:Request, res: Response) =>{
 
     const {email,password}= req.body;
@@ -28,7 +43,7 @@ export const getUser = async (req:Request, res: Response) =>{
     res.json({ok:true,message:'user saved',token,userSaved});
 }
 
-//Create a new user
+//Create a new user (/newUser)
 export const postUser =async (req:Request,res:Response)=>{
     const {fullname, username, email, password} = req.body;
     

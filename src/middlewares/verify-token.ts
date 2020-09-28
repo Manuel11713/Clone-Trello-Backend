@@ -9,9 +9,9 @@ const verifyToken = (req:Request, res:Response, next:NextFunction)=>{
     if(!token)return res.json('token must be provided');
     try{
         const decoded:(IToken | string) = <IToken | string>jwt.verify(String(token), config.JWT.SECRET);  
-        console.log('decoded',decoded); 
         if(typeof decoded === 'object' && decoded._id){
-            req._id = decoded._id
+            req._id = decoded._id;
+            req.email = decoded.email;
             next();
         }
     }catch (err){

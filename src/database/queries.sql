@@ -15,3 +15,16 @@ CREATE TABLE cards(
     nameCard VARCHAR(50) NOT NULL,
     _ListID BIGINT REFERENCES lists(_ListID)
 );
+
+ALTER TABLE lists
+DROP CONSTRAINT lists__tablesid_fkey,
+ADD CONSTRAINT lists__tablesid_fkey
+FOREIGN KEY (_tablesid)
+REFERENCES tables(_tablesid)
+ON DELETE CASCADE;
+
+SELECT * FROM person 
+INNER JOIN tables ON person._id=tables._personid
+INNER JOIN lists ON tables._tablesid=lists._tablesid
+INNER JOIN cards ON lists._listid=cards._listid
+WHERE email='gordito@gmail.com';

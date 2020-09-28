@@ -5,9 +5,9 @@ const router = express.Router();
 import verifyToken from '../middlewares/verify-token';
 
 //-----Controllers
-import {newList, updateList} from '../controllers/listsController';
+import {newCard} from '../controllers/cardController';
 
-router.post('/newList', verifyToken, newList);
-router.put('/updatelsit',verifyToken, updateList);
+router.post('/newCard', verifyToken, newCard);
+router.put('/updateCard',verifyToken, newCard);
 
 export default router;

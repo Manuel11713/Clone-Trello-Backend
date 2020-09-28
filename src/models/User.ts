@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 
 import config from '../config';
 
+
 class User{
     fullname:string;
     username:string;
@@ -50,6 +51,31 @@ class User{
     static tokenizing(data:string | object){
         const token = jwt.sign(data,config.JWT.SECRET,{expiresIn:'3d'});
         return token;
+    }
+    static async getTables(_id:number):Promise<object[] | null>{
+        try{
+            const res = await pgClient.query(`SELECT * FROM tables WHERE _personid=${_id}`);
+            return res.rows;
+        }catch(err){
+            console.log(err);
+            return null;
+        }
+    }
+    static async getAllData(email:string):Promise<Array<object> | null>{
+        try{
+            const res = await pgClient.query(`
+                SELECT _id, email, tables._tablesid, nametable, background, lists._listid, namelist, cards._cardid, namecard 
+                FROM person 
+                INNER JOIN tables ON person._id=tables._personid 
+                INNER JOIN lists ON tables._tablesid=lists._tablesid 
+                INNER JOIN cards ON lists._listid=cards._listid
+                WHERE email='${email}'
+                ORDER BY tables._tablesid`);
+            return res.rows;
+        }catch(err){
+            console.log(err);
+            return null;
+        }
     }
 }
 

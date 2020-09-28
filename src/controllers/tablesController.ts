@@ -10,11 +10,11 @@ export const newTable = async (req:Request, res:Response)=>{
 
     //-----create new intance of table and save it.
     const table = new Tables(_id, nameTable, background);
-    const created = await table.createTable();
+    const _tablesid = await table.createTable();
 
-    if(created)return res.json({ok:true,message:'table created'});
-
-    res.json({ok:false,message:'something was wrong, please try it leater'});
+    if(!_tablesid)return res.json({ok:false,message:'something was wrong, please try it leater'});
+    
+    res.json({ok:true,message:'table created',_tablesid});
 }
 
 export const updateTable = async (req:Request, res:Response) =>{
