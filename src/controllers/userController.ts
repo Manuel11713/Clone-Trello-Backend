@@ -82,6 +82,7 @@ export const postUser =async (req:Request,res:Response)=>{
     //-----Create token and send response to client.
     const token = await User.tokenizing(userSaved);
     delete userSaved._id;//id only in token;
+    
     res.json({ok:true,message:'user saved',token,userSaved});
 };
 
