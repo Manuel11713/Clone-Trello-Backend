@@ -61,6 +61,24 @@ class User{
             return null;
         }
     }
+    static async getLists(tablesid:number):Promise<object[] | null>{
+        try{
+            const res = await pgClient.query(`SELECT * FROM lists WHERE _tablesid='${tablesid}'`);
+            return res.rows;
+        }catch(err){
+            console.log(err);
+            return null;
+        }
+    }
+    static async getCards(listsid:number):Promise<object[] | null>{
+        try{
+            const res = await pgClient.query(`SELECT * FROM cards WHERE _listid='${listsid}'`);
+            return res.rows;
+        }catch(err){
+            console.log(err);
+            return null;
+        }
+    }
     static async getAllData(email:string):Promise<Array<object> | null>{
         try{
             const res = await pgClient.query(`

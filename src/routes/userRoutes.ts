@@ -4,14 +4,15 @@ import express from 'express';
 import verifyToken from '../middlewares/verify-token';
 
 //-----controllers
-import {getUser,getAllCards,getTables,postUser} from '../controllers/userController'; 
+import {getUser,getCards,getTables,getLists,postUser} from '../controllers/userController'; 
 
-//---init router
+//----init router
 const router = express.Router();
 
-//---routes user
-router.get('/get-all-cards',verifyToken,getAllCards);
+//----routes user
 router.get('/get-tables-user',verifyToken,getTables);
+router.get('/get-lists-user/:tablesid',verifyToken,getLists);
+router.get('/get-cards-user/:listsid',verifyToken,getCards);
 
 router.post('/login',getUser);
 router.post('/signup',postUser);

@@ -1,9 +1,28 @@
 import {Request, Response} from 'express';
+import pgClient from '../database';
 import User from '../models/User';
 
 export const getTables = async (req:Request, res:Response) =>{
     const {_id} = req;
     const rows = await User.getTables(_id);
+    if(!rows)return res.json({ok:false,message:"There are a problem try it later"});
+    return res.json({ok:true,rows});
+}
+
+export const getLists = async (req:Request, res:Response)=>{
+    const tablesid = Number(req.params.tablesid);
+    if((typeof tablesid) != 'number')return res.json({ok:false,message:'tablesid must be a number'});
+
+    const rows = await User.getLists(tablesid);
+    if(!rows)return res.json({ok:false,message:"There are a problem try it later"});
+    return res.json({ok:true,rows});
+}
+
+export const getCards = async (req: Request, res:Response) =>{
+    const listsid = Number(req.params.listsid);
+    if((typeof listsid) != 'number')return res.json({ok:false,message:'listsid must be a number'});
+
+    const rows = await User.getCards(listsid);
     if(!rows)return res.json({ok:false,message:"There are a problem try it later"});
     return res.json({ok:true,rows});
 }
